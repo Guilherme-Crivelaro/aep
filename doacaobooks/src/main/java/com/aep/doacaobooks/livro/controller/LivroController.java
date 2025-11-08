@@ -1,5 +1,6 @@
 package com.aep.doacaobooks.livro.controller;
 
+import com.aep.doacaobooks.livro.dto.LivroCreateDTO;
 import com.aep.doacaobooks.livro.entity.Enum.StatusLivro;
 import com.aep.doacaobooks.livro.entity.Livro;
 import com.aep.doacaobooks.livro.service.LivroService;
@@ -18,8 +19,8 @@ public class LivroController {
     private final LivroService livroService;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Livro> salvarLivro(@Valid @RequestBody Livro livro){
-        return ResponseEntity.ok(livroService.cadastrarLivro(livro));
+    public ResponseEntity<Livro> salvarLivro(@Valid @RequestBody LivroCreateDTO livroDTO){
+        return ResponseEntity.ok(livroService.cadastrarLivro(livroDTO));
     }
 
     @GetMapping
