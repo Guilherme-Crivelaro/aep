@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/doacaobooks.iml" filepath="$PROJECT_DIR$/.idea/doacaobooks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/aep.iml" filepath="$PROJECT_DIR$/.idea/aep.iml" />
+      <module fileurl="file://$PROJECT_DIR$/doacaobooks/doacaobooks.iml" filepath="$PROJECT_DIR$/doacaobooks/doacaobooks.iml" />
     </modules>
   </component>
 </project>
