@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DoacaoRepository extends JpaRepository<Doacao, Long> {
-
 }
