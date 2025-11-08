@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Long> {
     List<Livro> findByStatus(StatusLivro livro);
+
+    Livro findByTitulo(String email);
 }
