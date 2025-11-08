@@ -1,5 +1,6 @@
 package com.aep.doacaobooks.doacao.controller;
 
+import com.aep.doacaobooks.doacao.dto.DoacaoRequestDTO;
 import com.aep.doacaobooks.doacao.entity.Doacao;
 import com.aep.doacaobooks.doacao.entity.Enum.StatusDoacao;
 import com.aep.doacaobooks.doacao.service.DoacaoService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@ControllerAdvice(annotations = RestController.class)
 @RequiredArgsConstructor
 @RequestMapping("/doacao")
 public class DoacaoController {
@@ -16,9 +18,8 @@ public class DoacaoController {
     private final DoacaoService doacaoService;
 
     @PostMapping("/doar")
-    public ResponseEntity<Doacao> doarLivro(@RequestBody Doacao doacao){
-        return ResponseEntity.ok(doacaoService.doarLivro(doacao.getLivro(), doacao.getBeneficiario()));
-
+    public ResponseEntity<Doacao> doarLivro(@RequestBody DoacaoRequestDTO dto){
+        return ResponseEntity.ok(doacaoService.doarLivro(dto));
     }
 
     @PostMapping("/pegar/{id}")
