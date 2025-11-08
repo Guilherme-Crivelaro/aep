@@ -28,6 +28,10 @@ public class LivroService {
         return livroRepository.findByStatus(StatusLivro.DISPONIVEL);
     }
 
+    public Livro livroPorNome(String nome){
+        return livroRepository.findByTitulo(nome);
+    }
+
     public Livro atualizarStatus(Long id, StatusLivro novoStatus){
         Livro livro = livroRepository.findById(id)
                 .orElseThrow(()-> new BookNotFoundException("Livro não encontrado"));
