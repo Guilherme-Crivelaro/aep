@@ -2,39 +2,45 @@ package com.aep.doacaobooks.livro.entity;
 
 import com.aep.doacaobooks.livro.entity.Enum.StatusLivro;
 import com.aep.doacaobooks.usuario.entity.Usuario;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
-
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Table
+@Table(name = "livros")
 public class Livro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
+    @Column(nullable = false)
+    @NotNull
     private String titulo;
-    @NotBlank
+
+    @Column(nullable = false)
+    @NotNull
     private String autor;
-    @NotBlank
+
+    @Column(nullable = false)
+    @NotNull
     private String curso;
-    @NotBlank
+
+    @Column(nullable = false)
+    @NotNull
     private String disciplina;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     @NotNull
     private StatusLivro status;
-    @NotBlank
+
+    @ManyToOne
+    @JoinColumn(name = "doador_id")
+    @NotNull
     private Usuario doador;
 }
