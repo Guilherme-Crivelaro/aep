@@ -1,13 +1,17 @@
 package com.aep.doacaobooks.doacao.service;
 
+import com.aep.doacaobooks.doacao.dto.DoacaoRequestDTO;
 import com.aep.doacaobooks.doacao.entity.Doacao;
 import com.aep.doacaobooks.doacao.entity.Enum.StatusDoacao;
 import com.aep.doacaobooks.doacao.excpetion.IllegalStateException;
 import com.aep.doacaobooks.doacao.repository.DoacaoRepository;
 import com.aep.doacaobooks.livro.entity.Enum.StatusLivro;
 import com.aep.doacaobooks.livro.entity.Livro;
+import com.aep.doacaobooks.livro.exception.BookNotFoundException;
 import com.aep.doacaobooks.livro.repository.LivroRepository;
 import com.aep.doacaobooks.usuario.entity.Usuario;
+import com.aep.doacaobooks.usuario.exception.ConflictException;
+import com.aep.doacaobooks.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +23,16 @@ public class DoacaoService {
 
     private final DoacaoRepository doacaoRepository;
     private final LivroRepository livroRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public Doacao doarLivro(Livro livro, Usuario usuario){
+    public Doacao doarLivro(DoacaoRequestDTO dto){
+
+        Livro livro = livroRepository.findByTitulo(dto.getTituloLivro())
+                .orElseThrow(() -> new BookNotFoundException(dto.getTituloLivro()));
+
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmailBeneficiario())
+                .orElseThrow(() -> new ConflictException("Usuario não encontrado"));
+
         if(livro.getStatus()!= StatusLivro.DISPONIVEL){
             throw new IllegalStateException("Livro não disponivel");
         }
