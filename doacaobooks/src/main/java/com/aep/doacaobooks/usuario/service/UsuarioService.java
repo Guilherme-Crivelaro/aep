@@ -1,10 +1,14 @@
 package com.aep.doacaobooks.usuario.service;
 
+import com.aep.doacaobooks.usuario.entity.Enum.TipoUsuario;
 import com.aep.doacaobooks.usuario.entity.Usuario;
 import com.aep.doacaobooks.usuario.exception.ConflictException;
 import com.aep.doacaobooks.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -12,15 +16,28 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
+    }
+
     public Usuario create(Usuario usuario){
         Boolean exist = usuarioRepository.existsByEmail(usuario.getEmail());
             if (exist) {
                 throw new ConflictException("Email já cadastrado");
             }
-            return usuarioRepository.save(usuario);
+
+        return usuarioRepository.save(usuario);
     }
 
+    public Usuario deleteById(Long id){
+        if (!usuarioRepository.existsById(id)) {
+            throw new ConflictException("Usuário não existe");
+        }
 
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow();
 
+        usuarioRepository.delete(usuario);
 
+        return usuario;
+    }
 }
