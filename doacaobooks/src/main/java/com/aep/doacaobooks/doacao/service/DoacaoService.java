@@ -6,17 +6,12 @@ import com.aep.doacaobooks.doacao.excpetion.IllegalStateException;
 import com.aep.doacaobooks.doacao.repository.DoacaoRepository;
 import com.aep.doacaobooks.livro.entity.Enum.StatusLivro;
 import com.aep.doacaobooks.livro.entity.Livro;
-import com.aep.doacaobooks.livro.exception.BookNotFoundException;
 import com.aep.doacaobooks.livro.repository.LivroRepository;
-import com.aep.doacaobooks.livro.service.LivroService;
 import com.aep.doacaobooks.usuario.entity.Usuario;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
