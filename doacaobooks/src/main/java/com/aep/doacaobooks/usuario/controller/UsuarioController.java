@@ -3,7 +3,6 @@ package com.aep.doacaobooks.usuario.controller;
 
 import com.aep.doacaobooks.usuario.dto.UsuarioRequestDTO;
 import com.aep.doacaobooks.usuario.dto.UsuarioResponseDTO;
-import com.aep.doacaobooks.usuario.entity.Usuario;
 import com.aep.doacaobooks.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
