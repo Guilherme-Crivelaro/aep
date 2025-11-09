@@ -3,15 +3,11 @@ package com.aep.doacaobooks.usuario.entity;
 import com.aep.doacaobooks.usuario.entity.Enum.TipoUsuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,19 +17,25 @@ import java.util.UUID;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @NotBlank
+    @NotNull
+    @Column(nullable = false)
     private String nome;
+
+    @NotNull
     @Email
+    @Column(nullable = false, unique = true)
     private String email;
-    @NotBlank
+
+    @NotNull
     @Size(min = 8)
+    @Column(nullable = false)
     private String senha;
+
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(nullable = false)
     private TipoUsuario tipo;
-
-
 }

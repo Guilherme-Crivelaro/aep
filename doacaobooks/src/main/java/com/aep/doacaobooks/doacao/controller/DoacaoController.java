@@ -1,9 +1,10 @@
 package com.aep.doacaobooks.doacao.controller;
 
+import com.aep.doacaobooks.doacao.dto.DoacaoRequestDTO;
+import com.aep.doacaobooks.doacao.dto.DoacaoResponseDTO;
 import com.aep.doacaobooks.doacao.entity.Doacao;
 import com.aep.doacaobooks.doacao.entity.Enum.StatusDoacao;
 import com.aep.doacaobooks.doacao.service.DoacaoService;
-import com.aep.doacaobooks.usuario.entity.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,13 @@ public class DoacaoController {
     private final DoacaoService doacaoService;
 
     @PostMapping("/doar")
-    public ResponseEntity<Doacao> doarLivro(@RequestBody Doacao doacao){
-        return ResponseEntity.ok(doacaoService.doarLivro(doacao.getLivro(), doacao.getBeneficiario()));
-
+    public ResponseEntity<DoacaoResponseDTO> doarLivro(@RequestBody DoacaoRequestDTO dto){
+        return ResponseEntity.ok(doacaoService.doarLivro(dto));
     }
 
     @PostMapping("/pegar/{id}")
-    public ResponseEntity<Doacao> pegarLivro(@PathVariable Long id,  @RequestBody Usuario usuario){
-        Doacao doacao = doacaoService.pegarLivro(id, usuario);
+    public ResponseEntity<DoacaoResponseDTO> pegarLivro(@PathVariable Long id,  @RequestParam Long usuarioId){
+        DoacaoResponseDTO doacao = doacaoService.pegarLivro(id, usuarioId);
         return ResponseEntity.ok(doacao);
     }
 
