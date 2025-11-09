@@ -1,6 +1,8 @@
 package com.aep.doacaobooks.usuario.controller;
 
 
+import com.aep.doacaobooks.usuario.dto.UsuarioRequestDTO;
+import com.aep.doacaobooks.usuario.dto.UsuarioResponseDTO;
 import com.aep.doacaobooks.usuario.entity.Usuario;
 import com.aep.doacaobooks.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -24,7 +26,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Usuario> create(@Valid @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.create(usuario));
+    public ResponseEntity<UsuarioResponseDTO> create(@Valid @RequestBody UsuarioRequestDTO dto) {
+        return ResponseEntity.ok(usuarioService.create(dto));
     }
 }
