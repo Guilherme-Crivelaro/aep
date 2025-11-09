@@ -1,13 +1,9 @@
 package com.aep.doacaobooks.usuario.dto;
 
 import com.aep.doacaobooks.usuario.entity.Enum.TipoUsuario;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class UsuarioResponseDTO {
     private Long id;
     private String nome;
