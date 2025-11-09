@@ -27,6 +27,11 @@ public class LivroController {
     public ResponseEntity<List<LivroResponseDTO>> mostrarLivros(){
         return ResponseEntity.ok(livroService.todosLivros());
     }
+    @GetMapping("/titulo")
+    public ResponseEntity<Livro> mostrarLivrosPorTitulo(@RequestParam String titulo){
+        return ResponseEntity.ok(livroService.livroPorNome(titulo));
+    }
+
     @GetMapping("/disponiveis")
     public ResponseEntity<List<LivroResponseDTO>> mostrarLivrosDisponiveis(){
         return ResponseEntity.ok(livroService.livrosDisponiveis());
