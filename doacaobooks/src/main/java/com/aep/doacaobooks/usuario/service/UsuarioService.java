@@ -1,5 +1,7 @@
 package com.aep.doacaobooks.usuario.service;
 
+import com.aep.doacaobooks.usuario.dto.UsuarioRequestDTO;
+import com.aep.doacaobooks.usuario.dto.UsuarioResponseDTO;
 import com.aep.doacaobooks.usuario.entity.Enum.TipoUsuario;
 import com.aep.doacaobooks.usuario.entity.Usuario;
 import com.aep.doacaobooks.usuario.exception.ConflictException;
@@ -20,13 +22,27 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario create(Usuario usuario){
-        Boolean exist = usuarioRepository.existsByEmail(usuario.getEmail());
+    public UsuarioResponseDTO create(UsuarioRequestDTO dto){
+        Boolean exist = usuarioRepository.existsByEmail(dto.getEmail());
             if (exist) {
                 throw new ConflictException("Email já cadastrado");
             }
 
-        return usuarioRepository.save(usuario);
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail().trim().toLowerCase());
+        usuario.setSenha(dto.getSenha());
+        usuario.setTipo(dto.getTipo());
+
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO();
+        responseDTO.setId(savedUsuario.getId());
+        responseDTO.setNome(savedUsuario.getNome());
+        responseDTO.setEmail(savedUsuario.getEmail());
+        responseDTO.setTipo(savedUsuario.getTipo());
+
+        return responseDTO;
     }
 
     public Usuario deleteById(Long id){
