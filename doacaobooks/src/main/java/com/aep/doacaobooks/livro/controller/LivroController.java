@@ -1,8 +1,8 @@
 package com.aep.doacaobooks.livro.controller;
 
-import com.aep.doacaobooks.livro.dto.LivroCreateDTO;
+import com.aep.doacaobooks.livro.dto.LivroRequestDTO;
+import com.aep.doacaobooks.livro.dto.LivroResponseDTO;
 import com.aep.doacaobooks.livro.entity.Enum.StatusLivro;
-import com.aep.doacaobooks.livro.entity.Livro;
 import com.aep.doacaobooks.livro.service.LivroService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,23 +19,23 @@ public class LivroController {
     private final LivroService livroService;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Livro> salvarLivro(@Valid @RequestBody LivroCreateDTO livroDTO){
+    public ResponseEntity<LivroResponseDTO> salvarLivro(@Valid @RequestBody LivroRequestDTO livroDTO){
         return ResponseEntity.ok(livroService.cadastrarLivro(livroDTO));
     }
 
     @GetMapping
-    public ResponseEntity<List<Livro>> mostrarLivros(){
+    public ResponseEntity<List<LivroResponseDTO>> mostrarLivros(){
         return ResponseEntity.ok(livroService.todosLivros());
     }
     @GetMapping("/disponiveis")
-    public ResponseEntity<List<Livro>> mostrarLivrosDisponiveis(){
+    public ResponseEntity<List<LivroResponseDTO>> mostrarLivrosDisponiveis(){
         return ResponseEntity.ok(livroService.livrosDisponiveis());
     }
 
     @PatchMapping("/status/{id}")
-    public ResponseEntity<Livro> atualizarStataus( @PathVariable Long id,
+    public ResponseEntity<LivroResponseDTO> atualizarStataus( @PathVariable Long id,
                                                    @RequestParam StatusLivro status){
-        Livro atualizado = livroService.atualizarStatus(id, status);
+        LivroResponseDTO atualizado = livroService.atualizarStatus(id, status);
         return ResponseEntity.ok(atualizado);
     }
 }
