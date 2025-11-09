@@ -2,43 +2,39 @@ package com.aep.doacaobooks.usuario.service;
 
 import com.aep.doacaobooks.usuario.dto.UsuarioRequestDTO;
 import com.aep.doacaobooks.usuario.dto.UsuarioResponseDTO;
-import com.aep.doacaobooks.usuario.entity.Enum.TipoUsuario;
 import com.aep.doacaobooks.usuario.entity.Usuario;
-import com.aep.doacaobooks.usuario.exception.ConflictException;
+import com.aep.doacaobooks.usuario.exception.UserAlreadyExistsException;
+import com.aep.doacaobooks.usuario.exception.UserNotFoundException;
 import com.aep.doacaobooks.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final ModelMapper modelMapper;
 
     public List<UsuarioResponseDTO> findAll() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         List<UsuarioResponseDTO> usuarioResponseDTOS = new ArrayList<>();
         for (Usuario usuario : usuarios) {
-            UsuarioResponseDTO dto = new UsuarioResponseDTO();
-            dto.setId(usuario.getId());
-            dto.setNome(usuario.getNome());
-            dto.setEmail(usuario.getEmail());
-            dto.setTipo(usuario.getTipo());
-
+            UsuarioResponseDTO dto = modelMapper.map(usuario, UsuarioResponseDTO.class);
             usuarioResponseDTOS.add(dto);
         }
         return usuarioResponseDTOS;
     }
 
-    public UsuarioResponseDTO create(UsuarioRequestDTO dto){
+    public UsuarioResponseDTO create(UsuarioRequestDTO dto) {
         Boolean exist = usuarioRepository.existsByEmail(dto.getEmail());
-            if (exist) {
-                throw new ConflictException("Email já cadastrado");
-            }
+        if (exist) {
+            throw new UserAlreadyExistsException("email: " + dto.getEmail());
+        }
 
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
@@ -48,21 +44,16 @@ public class UsuarioService {
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
-        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO();
-        responseDTO.setId(savedUsuario.getId());
-        responseDTO.setNome(savedUsuario.getNome());
-        responseDTO.setEmail(savedUsuario.getEmail());
-        responseDTO.setTipo(savedUsuario.getTipo());
-
-        return responseDTO;
+        return modelMapper.map(savedUsuario, UsuarioResponseDTO.class);
     }
 
-    public Usuario deleteById(Long id){
+    public Usuario deleteById(Long id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new ConflictException("Usuário não existe");
+            throw new UserNotFoundException("id: " + id);
         }
 
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow();
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("id: " + id));
 
         usuarioRepository.delete(usuario);
 
